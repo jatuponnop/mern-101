@@ -14,7 +14,7 @@ exports.createRegister = async (req, res) => {
     }
     user = new User({ name, password });
     // Encrypt password
-    const salt = await bcrypt.getSalt(10);
+    const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
     await user.save();
     // payload return jsonweb token
@@ -29,7 +29,7 @@ exports.createRegister = async (req, res) => {
       res.json({ token });
     });
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
     res.status(500).send({ msg: "Server Error" });
   }
 };
